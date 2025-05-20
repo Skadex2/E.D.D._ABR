@@ -13,7 +13,7 @@ Proceso GestorDeProcesos
         Escribir "1. Insertar proceso"
 		Escribir "2. Buscar proceso por ID"
 		Escribir "3. Modificar prioridad"
-        Escribir "Seleccione una opción:"
+        Escribir "Seleccione una opciÃ³n:"
         Leer opcion
 		
         Segun opcion Hacer
@@ -32,7 +32,7 @@ Proceso GestorDeProcesos
                     totalProcesos <- totalProcesos + 1
                     Escribir "Proceso insertado correctamente."
                 Sino
-                    Escribir "¡Límite máximo de procesos alcanzado!"
+                    Escribir "Â¡LÃ­mite mÃ¡ximo de procesos alcanzado!"
                 FinSi
 				
             2:
@@ -51,7 +51,7 @@ Proceso GestorDeProcesos
                     Escribir "Nombre: ", procesos_nombre[encontrado]
                     Escribir "Prioridad: ", procesos_prioridad[encontrado]
                 Sino
-                    Escribir "No se encontró un proceso con ese ID."
+                    Escribir "No se encontrÃ³ un proceso con ese ID."
                 FinSi
 				
             3:
@@ -71,11 +71,11 @@ Proceso GestorDeProcesos
                     procesos_prioridad[encontrado] <- prioridadNueva
                     Escribir "Prioridad modificada correctamente."
                 Sino
-                    Escribir "No se encontró un proceso con ese ID."
+                    Escribir "No se encontrÃ³ un proceso con ese ID."
                 FinSi
 				
             De Otro Modo:
-                Escribir "Opción no válida. Intente nuevamente."
+                Escribir "OpciÃ³n no vÃ¡lida. Intente nuevamente."
         FinSegun
 		
     Hasta Que opcion = 3
