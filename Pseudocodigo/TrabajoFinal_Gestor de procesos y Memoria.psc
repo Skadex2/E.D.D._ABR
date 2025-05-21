@@ -64,29 +64,31 @@ Proceso GestorCompletoCPUyMemoria
                 
             3: // Eliminar proceso por ID
                 Si totalProcesos = 0 Entonces
-                    Escribir "No hay procesos para eliminar."
-                Sino
-                    Escribir "Ingrese el ID del proceso a eliminar:"
-                    Leer idBuscado
-                    encontrado <- -1
-                    Para i <- 1 Hasta totalProcesos
-                        Si procesos_id[i] = idBuscado Entonces
-                            encontrado <- i
-                        FinSi
-                    FinPara
-                    
-                    Si encontrado <> -1 Entonces
-                        Para i <- encontrado Hasta totalProcesos - 1
-                            procesos_id[i] <- procesos_id[i + 1]
-                            procesos_nombre[i] <- procesos_nombre[i + 1]
-                            procesos_prioridad[i] <- procesos_prioridad[i + 1]
-                        FinPara
-                        totalProcesos <- totalProcesos - 1
-                        Escribir "Proceso eliminado correctamente."
-                    Sino
-                        Escribir "No se encontró un proceso con ese ID."
-                    FinSi
-                FinSi
+					Escribir "No hay Procesos para eliminar."
+				SiNo
+					Escribir "Ingrese el ID del proceso a eliminar:"
+					Leer idBuscado
+					encontrado <- -1
+					Para i <- 1 Hasta totalProcesos
+						Si procesos_id[i] = idBuscado Entonces
+							encontrado <- i
+						FinSi
+					FinPara
+					
+					Si encontrado <> -1 Entonces
+						Si encontrado < totalProcesos Entonces
+							Para i <- encontrado Hasta totalProcesos - 1
+								procesos_id[i] <- procesos_id[i+1]
+								procesos_nombre[i] <- procesos_nombre[i+1]
+								procesos_prioridad[i] <- procesos_prioridad[i+1]
+							FinPara
+						FinSi
+						totalProcesos <- totalProcesos - 1
+						Escribir "Proceso eliminado correctamente."
+					Sino
+						Escribir "No se encontró un proceso con ese ID."
+					FinSi
+				FinSi
                 
             4: // Buscar proceso por ID
                 Escribir "Ingrese el ID del proceso a buscar:"
@@ -257,3 +259,4 @@ Proceso GestorCompletoCPUyMemoria
     Hasta Que opcion = 12
 
 FinProceso
+
