@@ -1,136 +1,262 @@
-Algoritmo PlanificadorCPU_GestorMemoria_SinSubalgoritmos
+Proceso GestorCompletoCPUyMemoria
 	
-	Definir inicio_j Como Entero
-    Definir colaPID, colaPrioridad Como Entero
-	Dimension colaPID[100], colaPrioridad[100]
-    Definir colaInicio, colaFin Como Entero
-	
-    colaInicio <- 1
-    colaFin <- 0
-	
-    Definir pilaMemoria Como Entero
-	Dimension pilaMemoria[100]
+    Definir procesos_id, procesos_nombre Como Caracter
+    Definir procesos_prioridad Como Entero
+    Dimension procesos_id[100], procesos_nombre[100], procesos_prioridad[100]
+    
+    Definir memoria Como Caracter
+    Dimension memoria[100]
+    
+    Definir totalProcesos, i, j, opcion, encontrado, topePila Como Entero
+    Definir idBuscado, nombre, idNuevo, bloqueID Como Caracter
+    Definir prioridad, prioridadAux Como Entero
+    
+    totalProcesos <- 0
     topePila <- 0
-	
-    Definir opcion, pid, prioridad, bloqueID, pidBuscar, bloqueBuscar Como Entero
-    Definir encontrado Como Logico
-    Definir i, j, auxPrioridad, auxPID, pidEjecutado, bloqueLiberado Como Entero
-	
+    
     Repetir
-        Escribir " "
-        Escribir "=== Planificador CPU y Gestor de Memoria ==="
-        Escribir "1. Encolar proceso (CPU)"
-        Escribir "2. Desencolar y ejecutar proceso"
-        Escribir "3. Mostrar cola de procesos"
-        Escribir "4. Buscar proceso en cola"
-        Escribir "5. Asignar memoria (push)"
-        Escribir "6. Liberar memoria (pop)"
-        Escribir "7. Mostrar estado de memoria"
-        Escribir "0. Salir"
-        Escribir "Ingrese opci�n:"
+        Escribir ""
+        Escribir "======= GESTOR DE PROCESOS Y MEMORIA ======="
+        Escribir "1. Insertar proceso"
+        Escribir "2. Listar procesos (sin ordenar)"
+        Escribir "3. Eliminar proceso por ID"
+        Escribir "4. Buscar proceso por ID"
+        Escribir "5. Modificar prioridad de un proceso"
+        Escribir "6. Ordenar procesos por prioridad (Mayor -> Menor)"
+        Escribir "7. Ejecutar (desencolar) proceso con mayor prioridad"
+        Escribir "8. Visualizar cola actual (ordenada)"
+        Escribir "9. Asignar memoria (push)"
+        Escribir "10. Liberar memoria (pop)"
+        Escribir "11. Ver estado actual de memoria"
+        Escribir "12. Salir"
+        Escribir "Seleccione una opción:"
         Leer opcion
-		
+        
         Segun opcion Hacer
-            Caso 1:
-                Si colaFin = 100 Entonces
-                    Escribir "La cola est� llena."
-                Sino
+            1: // Insertar proceso
+                Si totalProcesos < 100 Entonces
                     Escribir "Ingrese ID del proceso:"
-                    Leer pid
-                    Escribir "Ingrese prioridad (menor n�mero = mayor prioridad):"
+                    Leer idNuevo
+                    Escribir "Ingrese nombre del proceso:"
+                    Leer nombre
+                    Escribir "Ingrese prioridad (entero):"
                     Leer prioridad
-                    colaFin <- colaFin + 1
-                    colaPID[colaFin] <- pid
-                    colaPrioridad[colaFin] <- prioridad
+                    
+                    totalProcesos <- totalProcesos + 1
+                    procesos_id[totalProcesos] <- idNuevo
+                    procesos_nombre[totalProcesos] <- nombre
+                    procesos_prioridad[totalProcesos] <- prioridad
+                    
+                    Escribir "Proceso insertado correctamente."
+                Sino
+                    Escribir "¡Límite máximo de procesos alcanzado!"
+                FinSi
+                
+            2: // Listar procesos sin ordenar
+                Si totalProcesos = 0 Entonces
+                    Escribir "No hay procesos registrados."
+                Sino
+                    Escribir "Lista de procesos:"
+                    Para i <- 1 Hasta totalProcesos
+                        Escribir "ID: ", procesos_id[i], " | Nombre: ", procesos_nombre[i], " | Prioridad: ", procesos_prioridad[i]
+                    FinPara
+                FinSi
+                
+            3: // Eliminar proceso por ID
+                Si totalProcesos = 0 Entonces
+					Escribir "No hay Procesos para eliminar."
+				SiNo
+					Escribir "Ingrese el ID del proceso a eliminar:"
+					Leer idBuscado
+					encontrado <- -1
+					Para i <- 1 Hasta totalProcesos
+						Si procesos_id[i] = idBuscado Entonces
+							encontrado <- i
+						FinSi
+					FinPara
 					
-                    // Ordenar cola por prioridad (burbuja)
-					Si colaFin >= colaInicio + 1 Entonces
-                        Para i <- colaInicio Hasta colaFin - 1 Hacer
-                            inicio_j <- i + 1
-                            Para j <- inicio_j Hasta colaFin Hacer
-                                Si colaPrioridad[i] > colaPrioridad[j] Entonces
-                                    auxPrioridad <- colaPrioridad[i]
-                                    colaPrioridad[i] <- colaPrioridad[j]
-                                    colaPrioridad[j] <- auxPrioridad
-									
-                                    auxPID <- colaPID[i]
-                                    colaPID[i] <- colaPID[j]
-                                    colaPID[j] <- auxPID
-                                FinSi
-                            FinPara
-                        FinPara
-                    FinSi
-                    Escribir "Proceso encolado."
-                FinSi
-            Caso 2:
-                Si colaFin < colaInicio Entonces
-                    Escribir "No hay procesos para ejecutar."
-                Sino
-                    pidEjecutado <- colaPID[colaInicio]
-                    Para i <- colaInicio Hasta colaFin - 1 Hacer
-                        colaPID[i] <- colaPID[i + 1]
-                        colaPrioridad[i] <- colaPrioridad[i + 1]
-                    FinPara
-                    colaFin <- colaFin - 1
-                    Escribir "Ejecutando proceso ID: ", pidEjecutado, " ... �CPU a toda m�quina!"
-                FinSi
-            Caso 3:
-                Si colaFin < colaInicio Entonces
-                    Escribir "La cola est� vac�a."
-                Sino
-                    Escribir "Cola de procesos (ID - Prioridad):"
-                    Para i <- colaInicio Hasta colaFin Hacer
-                        Escribir colaPID[i], " - ", colaPrioridad[i]
-                    FinPara
-                FinSi
-            Caso 4:
-                Escribir "Ingrese ID a buscar:"
-                Leer pidBuscar
-                encontrado <- Falso
-                Para i <- colaInicio Hasta colaFin Hacer
-                    Si colaPID[i] = pidBuscar Entonces
-                        encontrado <- Verdadero
+					Si encontrado <> -1 Entonces
+						Si encontrado < totalProcesos Entonces
+							Para i <- encontrado Hasta totalProcesos - 1
+								procesos_id[i] <- procesos_id[i+1]
+								procesos_nombre[i] <- procesos_nombre[i+1]
+								procesos_prioridad[i] <- procesos_prioridad[i+1]
+							FinPara
+						FinSi
+						totalProcesos <- totalProcesos - 1
+						Escribir "Proceso eliminado correctamente."
+					Sino
+						Escribir "No se encontró un proceso con ese ID."
+					FinSi
+				FinSi
+                
+            4: // Buscar proceso por ID
+                Escribir "Ingrese el ID del proceso a buscar:"
+                Leer idBuscado
+                encontrado <- -1
+                Para i <- 1 Hasta totalProcesos
+                    Si procesos_id[i] = idBuscado Entonces
+                        encontrado <- i
                     FinSi
                 FinPara
-                Si encontrado Entonces
-                    Escribir "Proceso encontrado."
+                
+                Si encontrado <> -1 Entonces
+                    Escribir "Proceso encontrado:"
+                    Escribir "ID: ", procesos_id[encontrado]
+                    Escribir "Nombre: ", procesos_nombre[encontrado]
+                    Escribir "Prioridad: ", procesos_prioridad[encontrado]
                 Sino
-                    Escribir "Proceso no encontrado."
+                    Escribir "No se encontró un proceso con ese ID."
                 FinSi
-            Caso 5:
-                Si topePila = 100 Entonces
-                    Escribir "Pila llena."
+                
+            5: // Modificar prioridad
+                Escribir "Ingrese el ID del proceso para modificar prioridad:"
+                Leer idBuscado
+                encontrado <- -1
+                Para i <- 1 Hasta totalProcesos
+                    Si procesos_id[i] = idBuscado Entonces
+                        encontrado <- i
+                    FinSi
+                FinPara
+                
+                Si encontrado <> -1 Entonces
+                    Escribir "Prioridad actual: ", procesos_prioridad[encontrado]
+                    Escribir "Ingrese nueva prioridad (entero):"
+                    Leer prioridadAux
+                    procesos_prioridad[encontrado] <- prioridadAux
+                    Escribir "Prioridad modificada correctamente."
                 Sino
-                    Escribir "Ingrese ID del proceso para asignar en memoria:"
+                    Escribir "No se encontró un proceso con ese ID."
+                FinSi
+                
+            6: // Ordenar procesos por prioridad (mayor a menor)
+				Si totalProcesos >= 2 Entonces
+					Para i <- 1 Hasta totalProcesos - 1
+						Para j <- i + 1 Hasta totalProcesos
+							Si procesos_prioridad[i] > procesos_prioridad[j] Entonces
+								prioridadAux <- procesos_prioridad[i]
+								procesos_prioridad[i] <- procesos_prioridad[j]
+								procesos_prioridad[j] <- prioridadAux
+								
+								idAux <- procesos_id[i]
+								procesos_id[i] <- procesos_id[j]
+								procesos_id[j] <- idAux
+								
+								nombreAux <- procesos_nombre[i]
+								procesos_nombre[i] <- procesos_nombre[j]
+								procesos_nombre[j] <- nombreAux
+							FinSi
+						FinPara
+					FinPara
+					Escribir "Procesos ordenados por prioridad (menor número = mayor prioridad)."
+					Escribir "Lista ordenada:"
+					Para i <- 1 Hasta totalProcesos
+						Escribir "ID: ", procesos_id[i], " | Nombre: ", procesos_nombre[i], " | Prioridad: ", procesos_prioridad[i]
+					FinPara
+				Sino
+					Escribir "No hay suficientes procesos para ordenar."
+				FinSi
+
+
+                
+			7: // Ejecutar proceso con mayor prioridad (menor número)
+				Si totalProcesos = 0 Entonces
+					Escribir "No hay procesos para ejecutar."
+				Sino
+					// Buscar índice con prioridad mínima
+					Definir indiceMin Como Entero
+					indiceMin <- 1
+					Para i <- 2 Hasta totalProcesos
+						Si procesos_prioridad[i] < procesos_prioridad[indiceMin] Entonces
+							indiceMin <- i
+						FinSi
+					FinPara
+					
+					// Mostrar proceso a ejecutar
+					Escribir "Ejecutando proceso con mayor prioridad:"
+					Escribir "ID: ", procesos_id[indiceMin], " | Nombre: ", procesos_nombre[indiceMin], " | Prioridad: ", procesos_prioridad[indiceMin]
+					
+					// Eliminar proceso desplazando
+					Para i <- indiceMin Hasta totalProcesos - 1
+						procesos_id[i] <- procesos_id[i + 1]
+						procesos_nombre[i] <- procesos_nombre[i + 1]
+						procesos_prioridad[i] <- procesos_prioridad[i + 1]
+					FinPara
+					totalProcesos <- totalProcesos - 1
+				FinSi
+
+                
+            8: // Visualizar cola actual (ordenada)
+                Si totalProcesos = 0 Entonces
+					Escribir "La cola está vacía."
+				Sino
+					// Ordenar antes de mostrar para asegurar orden ascendente por prioridad
+					Si totalProcesos >= 2 Entonces
+						Para i <- 1 Hasta totalProcesos - 1
+							Para j <- i + 1 Hasta totalProcesos
+								Si procesos_prioridad[i] > procesos_prioridad[j] Entonces
+									prioridadAux <- procesos_prioridad[i]
+									procesos_prioridad[i] <- procesos_prioridad[j]
+									procesos_prioridad[j] <- prioridadAux
+									
+									idAux <- procesos_id[i]
+									procesos_id[i] <- procesos_id[j]
+									procesos_id[j] <- idAux
+									
+									nombreAux <- procesos_nombre[i]
+									procesos_nombre[i] <- procesos_nombre[j]
+									procesos_nombre[j] <- nombreAux
+								FinSi
+							FinPara
+						FinPara
+					FinSi
+					
+					Escribir "Cola actual (ordenada por prioridad):"
+					Para i <- 1 Hasta totalProcesos
+						Escribir "ID: ", procesos_id[i], " | Nombre: ", procesos_nombre[i], " | Prioridad: ", procesos_prioridad[i]
+					FinPara
+				FinSi
+
+                
+            9: // Asignar memoria (push)
+                Si topePila < 100 Entonces
+                    Escribir "Ingrese ID del proceso para asignar memoria:"
                     Leer bloqueID
                     topePila <- topePila + 1
-                    pilaMemoria[topePila] <- bloqueID
-                    Escribir "Memoria asignada."
-                FinSi
-            Caso 6:
-                Si topePila = 0 Entonces
-                    Escribir "No hay memoria para liberar."
+                    memoria[topePila] <- bloqueID
+                    Escribir "Memoria asignada correctamente al proceso."
                 Sino
-                    bloqueLiberado <- pilaMemoria[topePila]
-                    topePila <- topePila - 1
-                    Escribir "Memoria liberada (bloque ID): ", bloqueLiberado
+                    Escribir "¡La memoria está llena!"
                 FinSi
-            Caso 7:
-                Si topePila = 0 Entonces
-                    Escribir "Pila vac�a."
-                Sino
-                    Escribir "Pila de memoria (de arriba hacia abajo):"
-                    Para i<-topePila Hasta 1 Con Paso -1 Hacer
-						Escribir pilaMemoria[i]
-					Fin Para
-                FinSi
-            Caso 0:
-                Escribir "Saliendo..."
-            De Otro Modo:
-                Escribir "Opci�n inv�lida."
-        FinSegun
-		
-	Hasta que opcion = 0
+                
+            10: // Liberar memoria (pop)
+				Si topePila > 0 Entonces
+					Escribir "Liberando memoria del proceso ID: ", memoria[topePila]
+					memoria[topePila] <- "" // Aquí limpiamos el valor visiblemente
+					topePila <- topePila - 1
+				Sino
+					Escribir "La memoria ya está vacía."
+				FinSi
 
-	
-FinAlgoritmo
+                
+            11: // Ver estado actual de la memoria
+                Si topePila = 0 Entonces
+                    Escribir "La memoria está vacía."
+                Sino
+                    Escribir "Estado actual de la memoria:"
+                    Para i <- topePila Hasta 1 Con Paso -1
+                        Escribir "Posición del proceso ", i, ": ", memoria[i]
+                    FinPara
+                FinSi
+                
+            12:
+                Escribir "Saliendo del programa."
+                
+            De Otro Modo:
+                Escribir "Opción no válida, intente nuevamente."
+        FinSegun
+        
+    Hasta Que opcion = 12
+
+FinProceso
+
