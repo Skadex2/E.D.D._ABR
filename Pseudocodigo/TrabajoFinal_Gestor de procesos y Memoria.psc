@@ -29,7 +29,7 @@ Proceso GestorCompletoCPUyMemoria
         Escribir "10. Liberar memoria (pop)"
         Escribir "11. Ver estado actual de memoria"
         Escribir "12. Salir"
-        Escribir "Seleccione una opción:"
+        Escribir "Seleccione una opciÃ³n:"
         Leer opcion
         
         Segun opcion Hacer
@@ -49,7 +49,7 @@ Proceso GestorCompletoCPUyMemoria
                     
                     Escribir "Proceso insertado correctamente."
                 Sino
-                    Escribir "¡Límite máximo de procesos alcanzado!"
+                    Escribir "Â¡LÃ­mite mÃ¡ximo de procesos alcanzado!"
                 FinSi
                 
             2: // Listar procesos sin ordenar
@@ -84,7 +84,7 @@ Proceso GestorCompletoCPUyMemoria
                         totalProcesos <- totalProcesos - 1
                         Escribir "Proceso eliminado correctamente."
                     Sino
-                        Escribir "No se encontró un proceso con ese ID."
+                        Escribir "No se encontrÃ³ un proceso con ese ID."
                     FinSi
                 FinSi
                 
@@ -104,7 +104,7 @@ Proceso GestorCompletoCPUyMemoria
                     Escribir "Nombre: ", procesos_nombre[encontrado]
                     Escribir "Prioridad: ", procesos_prioridad[encontrado]
                 Sino
-                    Escribir "No se encontró un proceso con ese ID."
+                    Escribir "No se encontrÃ³ un proceso con ese ID."
                 FinSi
                 
             5: // Modificar prioridad
@@ -124,7 +124,7 @@ Proceso GestorCompletoCPUyMemoria
                     procesos_prioridad[encontrado] <- prioridadAux
                     Escribir "Prioridad modificada correctamente."
                 Sino
-                    Escribir "No se encontró un proceso con ese ID."
+                    Escribir "No se encontrÃ³ un proceso con ese ID."
                 FinSi
                 
             6: // Ordenar procesos por prioridad (mayor a menor)
@@ -146,7 +146,7 @@ Proceso GestorCompletoCPUyMemoria
 							FinSi
 						FinPara
 					FinPara
-					Escribir "Procesos ordenados por prioridad (menor número = mayor prioridad)."
+					Escribir "Procesos ordenados por prioridad (menor nÃºmero = mayor prioridad)."
 					Escribir "Lista ordenada:"
 					Para i <- 1 Hasta totalProcesos
 						Escribir "ID: ", procesos_id[i], " | Nombre: ", procesos_nombre[i], " | Prioridad: ", procesos_prioridad[i]
@@ -157,11 +157,11 @@ Proceso GestorCompletoCPUyMemoria
 
 
                 
-			7: // Ejecutar proceso con mayor prioridad (menor número)
+			7: // Ejecutar proceso con mayor prioridad (menor nÃºmero)
 				Si totalProcesos = 0 Entonces
 					Escribir "No hay procesos para ejecutar."
 				Sino
-					// Buscar índice con prioridad mínima
+					// Buscar Ã­ndice con prioridad mÃ­nima
 					Definir indiceMin Como Entero
 					indiceMin <- 1
 					Para i <- 2 Hasta totalProcesos
@@ -186,7 +186,7 @@ Proceso GestorCompletoCPUyMemoria
                 
             8: // Visualizar cola actual (ordenada)
                 Si totalProcesos = 0 Entonces
-					Escribir "La cola está vacía."
+					Escribir "La cola estÃ¡ vacÃ­a."
 				Sino
 					// Ordenar antes de mostrar para asegurar orden ascendente por prioridad
 					Si totalProcesos >= 2 Entonces
@@ -224,24 +224,26 @@ Proceso GestorCompletoCPUyMemoria
                     memoria[topePila] <- bloqueID
                     Escribir "Memoria asignada correctamente al proceso."
                 Sino
-                    Escribir "¡La memoria está llena!"
+                    Escribir "Â¡La memoria estÃ¡ llena!"
                 FinSi
                 
             10: // Liberar memoria (pop)
-                Si topePila > 0 Entonces
-                    Escribir "Liberando memoria del proceso: ", memoria[topePila]
-                    topePila <- topePila - 1
-                Sino
-                    Escribir "La memoria ya está vacía."
-                FinSi
+				Si topePila > 0 Entonces
+					Escribir "Liberando memoria del proceso ID: ", memoria[topePila]
+					memoria[topePila] <- "" // AquÃ­ limpiamos el valor visiblemente
+					topePila <- topePila - 1
+				Sino
+					Escribir "La memoria ya estÃ¡ vacÃ­a."
+				FinSi
+
                 
             11: // Ver estado actual de la memoria
                 Si topePila = 0 Entonces
-                    Escribir "La memoria está vacía."
+                    Escribir "La memoria estÃ¡ vacÃ­a."
                 Sino
                     Escribir "Estado actual de la memoria:"
                     Para i <- topePila Hasta 1 Con Paso -1
-                        Escribir "Posición del proceso ", i, ": ", memoria[i]
+                        Escribir "PosiciÃ³n del proceso ", i, ": ", memoria[i]
                     FinPara
                 FinSi
                 
@@ -249,10 +251,9 @@ Proceso GestorCompletoCPUyMemoria
                 Escribir "Saliendo del programa."
                 
             De Otro Modo:
-                Escribir "Opción no válida, intente nuevamente."
+                Escribir "OpciÃ³n no vÃ¡lida, intente nuevamente."
         FinSegun
         
     Hasta Que opcion = 12
 
 FinProceso
-
