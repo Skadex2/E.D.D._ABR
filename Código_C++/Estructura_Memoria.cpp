@@ -2,7 +2,7 @@
 #include <string>
 using namespace std;
 
-// Nodo para pila (gesti�n de memoria)
+// Nodo para pila (gestión de memoria)
 struct NodoMemoria {
     string procesoID;
     NodoMemoria* siguiente;
@@ -42,8 +42,29 @@ void popMemoria() {
     system("CLS");
 }
 
+// 12. Mostrar estado actual de la memoria
+void mostrarMemoria() {
+    if (!pilaMemoria) {
+        cout << "La memoria está vacia.\n";
+        system("pause");
+        system("CLS");
+        return;
+    }
+
+    NodoMemoria* temp = pilaMemoria;
+    int pos = 1;
+    while (temp) {
+        cout << "Posicion " << pos++ << ": " << temp->procesoID << "\n";
+        temp = temp->siguiente;
+    }
+    system("pause");
+    system("CLS");
+}
+
+
 int main() {
     pushMemoria();
     popMemoria();
+    mostrarMemoria();
 }
 
