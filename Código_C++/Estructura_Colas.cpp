@@ -1,14 +1,7 @@
 #include <iostream>
 #include <string>
 using namespace std;
-// Cola de prioridad basada en lista enlazada ordenada
-struct NodoCola {
-    string id;
-    string nombre;
-    int prioridad;
-    NodoCola* siguiente;
-};
-
+// Nodo para lista enlazada de procesos
 struct Proceso {
     string id;
     string nombre;
@@ -23,10 +16,47 @@ struct Proceso {
     }
 };
 
+
+// Cola de prioridad basada en lista enlazada ordenada
+struct NodoCola {
+    string id;
+    string nombre;
+    int prioridad;
+    NodoCola* siguiente;
+};
+
+
+
 // ==================== VARIABLES GLOBALES ====================
 Proceso* listaProcesos = NULL;
 NodoCola* colaCPU = NULL;
 
+// 1. Insertar proceso en la lista
+void insertarProceso() {
+    string id, nombre;
+    int prioridad;
+
+    cout << "Ingrese ID del proceso: ";
+    cin >> id;
+    cout << "Ingrese nombre del proceso: ";
+    cin >> nombre;
+    cout << "Ingrese prioridad (entero): ";
+    cin >> prioridad;
+
+    Proceso* nuevo = new Proceso(id, nombre, prioridad);
+
+    if (!listaProcesos) {
+        listaProcesos = nuevo;  // Primer nodo
+    } else {
+        Proceso* actual = listaProcesos;
+        while (actual->siguiente) {
+            actual = actual->siguiente;
+        }
+        actual->siguiente = nuevo;  // Insertar al final
+    }
+    system("pause");
+    system("CLS");
+}
 
 
 // 7. Encolar proceso a la cola CPU
@@ -73,8 +103,39 @@ void ejecutarCPU() {
     system("CLS");
 }
 
+// 9. Mostrar cola CPU
+void mostrarColaCPU() {
+    if (!colaCPU) {
+        cout << "La cola está vacia.\n";
+        system("pause");
+        system("CLS");
+        return;
+    }
+
+    cout << "Cola actual (ordenada por prioridad):\n";
+    NodoCola* temp = colaCPU;
+    while (temp) {
+        cout << "ID: " << temp->id << " | Nombre: " << temp->nombre << " | Prioridad: " << temp->prioridad << "\n";
+        temp = temp->siguiente;
+    }
+    system("pause");
+    system("CLS");
+}
+
+
+
 int main () {
+	int num,i;
+	
+	
+	cout<<"¿Cuantos procesos quieres ingresar?";
+	cin>>num;
+	for (i=0;i<num;i++) {
+		insertarProceso();
+	}
+	
 	
 	encolarCPU();
 	ejecutarCPU();
+    mostrarColaCPU();
 }
