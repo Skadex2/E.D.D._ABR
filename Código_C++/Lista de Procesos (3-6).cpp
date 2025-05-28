@@ -1,3 +1,41 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// ==================== ESTRUCTURAS ====================
+
+// Nodo para lista enlazada de procesos
+struct Proceso {
+    string id;
+    string nombre;
+    int prioridad;
+    Proceso* siguiente;
+
+    Proceso(string _id, string _nombre, int _prioridad) {
+        id = _id;
+        nombre = _nombre;
+        prioridad = _prioridad;
+        siguiente = NULL;
+    }
+};
+
+// Nodo para pila (gestión de memoria)
+struct NodoMemoria {
+    string procesoID;
+    NodoMemoria* siguiente;
+};
+
+// Cola de prioridad basada en lista enlazada ordenada
+struct NodoCola {
+    string id;
+    string nombre;
+    int prioridad;
+    NodoCola* siguiente;
+};
+Proceso * listaProcesos = NULL;
+NodoMemoria * pilaMemoria = NULL;
+NodoCola * colaCPU = NULL;
+
 // Eliminar los procesos ID (3)
 void eliminarProceso() {
     string id;
