@@ -37,3 +37,53 @@ struct NodoCola {
 Proceso* listaProcesos = NULL;
 NodoMemoria* pilaMemoria = NULL;
 NodoCola* colaCPU = NULL; 
+
+// 1. Insertar proceso en la lista
+void insertarProceso() {
+    string id, nombre;
+    int prioridad;
+
+    cout << "Ingrese ID del proceso: ";
+    cin >> id;
+    cout << "Ingrese nombre del proceso: ";
+    cin >> nombre;
+    cout << "Ingrese prioridad (entero): ";
+    cin >> prioridad;
+
+    Proceso* nuevo = new Proceso(id, nombre, prioridad);
+
+    if (!listaProcesos) {
+        listaProcesos = nuevo;  // Primer nodo
+    } else {
+        Proceso* actual = listaProcesos;
+        while (actual->siguiente) {
+            actual = actual->siguiente;
+        }
+        actual->siguiente = nuevo;  
+    }
+    system("pause");
+    system("CLS");
+}
+
+// 2. Listar procesos
+void listarProcesos() {
+    if (!listaProcesos) {
+        cout << "No hay procesos registrados.\n";
+    } else {
+        Proceso* actual = listaProcesos;
+        cout << "Lista de procesos:\n";
+        while (actual) {
+            cout << "ID: " << actual->id 
+                 << " | Nombre: " << actual->nombre 
+                 << " | Prioridad: " << actual->prioridad << "\n";
+            actual = actual->siguiente;
+        }
+    }
+    system("pause");
+    system("CLS");
+}
+
+int main (){
+	insertarProceso();
+	listarProcesos();
+}
