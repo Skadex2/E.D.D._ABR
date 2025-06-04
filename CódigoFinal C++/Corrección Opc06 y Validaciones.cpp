@@ -18,7 +18,7 @@ void insertarProceso() {
     cout << "Ingrese nombre del proceso: ";
     cin >> nombre;
     
-    //Validamos Prioridad
+    //Validamos Prioridad del 1 al 10
 	do {
 		cout << "Ingrese prioridad (entero del 1 al 10): ";
 		cin >> prioridad;
@@ -43,7 +43,6 @@ void insertarProceso() {
         actual->siguiente = nuevo;
     }
 
-    guardarProcesosEnArchivo(); // Guarda los datos actualizados en archivo
     system("pause");
     system("CLS");
 }
@@ -68,7 +67,7 @@ void modificarPrioridad() {
     int nuevaPrioridad;
     cout << "Prioridad actual: " << p->prioridad << "\n";
     
-	//Validamos Prioridad
+	//Validamos Prioridad del 1 al 10
 	do {
 		cout << "Ingrese nueva prioridad: ";
 		cin >> nuevaPrioridad;
